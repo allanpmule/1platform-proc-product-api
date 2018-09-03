@@ -1,7 +1,14 @@
+https:
+  port: "8082"
+  
+keystore:
+  path: "docker01.domain.local.jks"
+  password: "Welcome1"
+
 sysProductAPI:
   forMySQL:
     host: "sys-product-api-for-mysql.us-e2.cloudhub.io"
-    port: "80"
+    port: "443"
     
 api:
   autodiscovery: "15524323"
