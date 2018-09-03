@@ -1,6 +1,14 @@
-host: "localhost"
-port: "8082"
 sysProductAPI:
   forMySQL:
     host: "localhost"
     port: "8081"
+    
+api:
+  autodiscovery: "15524323"
+  
+anypoint:
+  platform:
+    client_id: "37022508df994929960b76d87e7f218b"
+    client_secret: "4B9d1974C6fD4F2c8CD1360f1298575F"
+    visualizer:
+      layer: Domain
