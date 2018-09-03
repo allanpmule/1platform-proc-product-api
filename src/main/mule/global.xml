@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<global-property doc:name="Global Property" doc:id="130e699b-751f-4be4-8bda-dbc4a0001619" name="env" value="dev" />
+	<global-property doc:name="Global Property" doc:id="0ed6b8dc-28fa-4b0a-96ab-2c34775bd343" name="key" value="Mule1379" />
+	<configuration-properties doc:name="Configuration properties" doc:id="557ae8e0-a134-4f81-b807-3af2ed942241" file="product.api.${env}.yaml" />
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="63a8cb7d-c1f1-41a9-8b32-b3c55d2b6be2" file="product.api.${env}.secured.yaml" key="${key}" >
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<http:listener-config name="product-api-spec-httpListenerConfig">
+        <http:listener-connection host="${host}" port="${port}" />
+    </http:listener-config>
+    <apikit:config name="product-api-spec-config" raml="product-api-spec.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <http:request-config name="ProductAPIForMySQL" doc:name="HTTP Request configuration" doc:id="c20272cb-2a42-42e8-9a24-61a0e59470bd" basePath="/api" >
+		<http:request-connection host="${sysProductAPI.forMySQL.host}" port="${sysProductAPI.forMySQL.port}" />
+	</http:request-config>
+</mule>

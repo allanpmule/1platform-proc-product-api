@@ -1,0 +1,4 @@
+sysProductAPI:
+  forMySQL:
+    clientId: "123"
+    clientSecret: "123"
