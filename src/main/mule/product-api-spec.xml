@@ -129,7 +129,7 @@ output application/json
 		<product-apifor-my-sqldb:delete-product-by-id doc:name="Delete product by id" doc:id="8ea99557-f8e0-4a47-9bc9-4db272149e91" config-ref="Product_API_for_MySQL_DB_Config" id="#[attributes.uriParams.id]"/>
     </flow>
     <flow name="get:\products\(id):product-api-spec-config">
-        <product-apifor-my-sqldb:put-product-by-id doc:name="Put product by id" doc:id="6e5b5f8c-5da8-4a46-bc0d-1e5279a65b28" config-ref="Product_API_for_MySQL_DB_Config" id="#[message.attributes.uriParams.id]"/>
+        <product-apifor-my-sqldb:get-product-by-id doc:name="Get product by id" doc:id="208031da-ec11-4782-b97a-4786ab872e9a" config-ref="Product_API_for_MySQL_DB_Config" id="#[attributes.uriParams.id]"/>
     </flow>
     <flow name="get:\products:product-api-spec-config">
 		<product-apifor-my-sqldb:get-products doc:name="Get products" doc:id="a983652d-4e5f-407e-bcc6-14938fa6b6e3" config-ref="Product_API_for_MySQL_DB_Config" product-name="#[message.attributes.queryParams.productName]" category="#[message.attributes.queryParams.category]"/>

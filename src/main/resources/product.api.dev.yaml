@@ -8,7 +8,7 @@ keystore:
 sysProductAPI:
   forMySQL:
     host: "localhost"
-    port: "443"
+    port: "8081"
     
 api:
   autodiscovery: "15524323"
