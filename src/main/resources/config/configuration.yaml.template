@@ -1,0 +1,21 @@
+https:
+  port: 
+  
+keystore:
+  path: 
+  password: 
+
+sysProductAPI:
+  forMySQL:
+    host: 
+    port: 
+    
+api:
+  autodiscovery: 
+  
+anypoint:
+  platform:
+    client_id: 
+    client_secret: 
+    visualizer:
+      layer: 
