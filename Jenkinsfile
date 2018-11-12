@@ -33,8 +33,8 @@ pipeline {
       steps {
         withMaven(
           mavenSettingsConfig: 'f007350a-b1d5-44a8-9757-07c22cd2a360'){
-            withCredentials([file(credentialsId: 'develop-api-mgr-proc-product-api', variable: 'APP_CLIENT')]){
-              sh "mvn -B test -Dapp.client_secret=$APP_CLIENT_USR -Dapp.client_id=$APP_CLIENT_PSW'"
+            withCredentials([usernamePassword(credentialsId: 'develop-api-mgr-proc-product-api', variable: 'APP_CLIENT')]){
+              sh "mvn -B test -Denv.APP_CLIENT_ID=$APP_CLIENT_USR -Denv.APP_CLIENT_SECRET=$APP_CLIENT_PSW"
             }
           }
       }

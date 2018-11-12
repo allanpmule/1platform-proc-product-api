@@ -72,6 +72,10 @@
                             <format>html</format>
                         </formats>
                     </coverage>
+		    <systemPropertyVariables>
+		    	<app.client_id>${env.APP_CLIENT_ID}</app.client_id>
+			<app.client_secret>${env.APP_CLIENT_SECRET}</app.client_secret>
+      		   </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
