@@ -31,9 +31,10 @@ pipeline {
 
     stage('Test') {
       steps {
+        APP_CLIENT_CREDS = credentials('develop-api-mgr-proc-product-api')
         withMaven(
           mavenSettingsConfig: 'f007350a-b1d5-44a8-9757-07c22cd2a360'){
-            sh "mvn -B test"
+            sh "mvn -B test -Dapp.client_secret=$APP_CLIENT_CREDS_USR -Dapp.client_id=$APP_CLIENT_CREDS_PSW'"
           }
       }
     }
