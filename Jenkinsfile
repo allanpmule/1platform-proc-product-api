@@ -5,7 +5,7 @@ pipeline {
   environment {
     DEPLOY_CREDS = credentials('deploy-anypoint-user')
     MULE_VERSION = '4.1.4-AM'
-    BG = "1Platform\\Retail\\Manufacturing"
+    BG = "1Platform\\Manufacturing"
     WORKER = "Small"
   }
   stages {
