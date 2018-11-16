@@ -10,8 +10,9 @@ sysProductAPI:
     host: 
     port:
     protocol:
-    client_id:
-    client_secret: 
     
-api:
+app:
   autodiscovery: 
+  client_id:
+  client_secret: 
+  
