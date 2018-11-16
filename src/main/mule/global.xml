@@ -23,5 +23,5 @@ http://www.mulesoft.org/schema/mule/product-apifor-my-sqldb http://www.mulesoft.
 		</http:listener-connection>
     </http:listener-config>
     <apikit:config name="product-api-spec-config" raml="product-api-spec.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-	<api-gateway:autodiscovery apiId="${api.autodiscovery}" doc:name="API Autodiscovery" doc:id="c15cc5df-84b6-4f77-868c-958732b27cdf" flowRef="product-api-spec-main" />
+	<api-gateway:autodiscovery apiId="${app.autodiscovery}" doc:name="API Autodiscovery" doc:id="c15cc5df-84b6-4f77-868c-958732b27cdf" flowRef="product-api-spec-main" />
 </mule>
