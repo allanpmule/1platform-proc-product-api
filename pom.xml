@@ -47,55 +47,7 @@
 					       <anypoint.platform.client_secret>${env.ANYPOINT_CLIENT_SECRET}</anypoint.platform.client_secret>
 	 				    </properties>
 	 				</cloudHubDeployment>
-                </configuration>
-						<properties>
-							<!-- API MANAGER -->
-							<anypoint.platform.analytics_base_uri>https://analytics-ingest.anypoint.mulesoft.com</anypoint.platform.analytics_base_uri>
-							<anypoint.platform.coreservice_base_uri>https://anypoint.mulesoft.com/accounts</anypoint.platform.coreservice_base_uri>
-							<anypoint.platform.platform_base_uri>https://anypoint.mulesoft.com/apiplatform</anypoint.platform.platform_base_uri>
-							<anypoint.platform.contracts_base_uri>https://anypoint.mulesoft.com/apigateway/ccs</anypoint.platform.contracts_base_uri>
-							<anypoint.platform.visualizer.layer>Process</anypoint.platform.visualizer.layer>
-							<anypoint.platform.client_id>${env.ANYPOINT_CLIENT_ID}</anypoint.platform.client_id>
-							<anypoint.platform.client_secret>${env.ANYPOINT_CLIENT_SECRET}</anypoint.platform.client_secret>
-							<app.client_id>env.APP_CLIENT_ID</app.client_id>
-							<app.client_secret>env.APP_CLIENT_SECRET</app.client_secret>
-						</properties>
-					</cloudHubDeployment>
 				</configuration>
-			</plugin>
-		<plugin>
-                <groupId>com.mulesoft.munit.tools</groupId>
-                <artifactId>munit-maven-plugin</artifactId>
-                <version>${munit.version}</version>
->>>>>>> d04974f8fde850741a6cb9f90617988462e72964
-                <executions>
-                    <execution>
-                        <id>test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                            <goal>coverage-report</goal>
-                        </goals>
-                    </execution>
-<<<<<<< HEAD
-				</executions>
-=======
-						<workerType>${cloudhub.worker}</workerType>
-						<properties>
-							<!-- API MANAGER -->
-							<anypoint.platform.analytics_base_uri>https://analytics-ingest.anypoint.mulesoft.com</anypoint.platform.analytics_base_uri>
-							<anypoint.platform.coreservice_base_uri>https://anypoint.mulesoft.com/accounts</anypoint.platform.coreservice_base_uri>
-							<anypoint.platform.platform_base_uri>https://anypoint.mulesoft.com/apiplatform</anypoint.platform.platform_base_uri>
-							<anypoint.platform.contracts_base_uri>https://anypoint.mulesoft.com/apigateway/ccs</anypoint.platform.contracts_base_uri>
-							<anypoint.platform.visualizer.layer>Process</anypoint.platform.visualizer.layer>
-							<anypoint.platform.client_id>${env.ANYPOINT_CLIENT_ID}</anypoint.platform.client_id>
-							<anypoint.platform.client_secret>${env.ANYPOINT_CLIENT_SECRET}</anypoint.platform.client_secret>
-							<app.client_id>${env.APP_CLIENT_ID}</app.client_id>
-							<app.client_secret>${env.APP_CLIENT_SECRETi}</app.client_secret>
-						</properties>
-					</cloudHubDeployment>
-				</configuration>
->>>>>>> develop
 			</plugin>
 		<plugin>
                 <groupId>com.mulesoft.munit.tools</groupId>
@@ -110,8 +62,6 @@
                             <goal>coverage-report</goal>
                         </goals>
                     </execution>
-=======
->>>>>>> d04974f8fde850741a6cb9f90617988462e72964
                 </executions>
                 <configuration>
                     <coverage>
