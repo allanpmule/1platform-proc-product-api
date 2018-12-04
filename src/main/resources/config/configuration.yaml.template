@@ -8,11 +8,8 @@ keystore:
 sysProductAPI:
   forMySQL:
     host: 
-    port: 
-    client_id: 
-    client_secret: 
-    basePath: 
-    protocol: 
+    port:
+    protocol:
     
 app:
   autodiscovery: 
