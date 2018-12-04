@@ -12,8 +12,9 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
 http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd
 http://www.mulesoft.org/schema/mule/product-apifor-my-sqldb http://www.mulesoft.org/schema/mule/product-apifor-my-sqldb/current/mule-product-apifor-my-sqldb.xsd">
+	<configuration doc:name="HTTP Configuration" defaultResponseTimeout="60000" />
 	<configuration-properties doc:name="Configuration properties" doc:id="557ae8e0-a134-4f81-b807-3af2ed942241" file="config/configuration.yaml" />
-	<product-apifor-my-sqldb:config name="Product_API_for_MySQL_DB_Config" doc:name="Product API for MySQL DB Config" doc:id="59b19ba9-4c16-4bee-bf71-7be7d60860e0" property_host="${sysProductAPI.forMySQL.host}" property_port="${sysProductAPI.forMySQL.port}" property_basePath="${sysProductAPI.forMySQL.basePath}" property_client-id="${sysProductAPI.forMySQL.client_id}" property_client-secret="${sysProductAPI.forMySQL.client_secret}" property_protocol="${sysProductAPI.forMySQL.protocol}"/>
+	<product-apifor-my-sqldb:config name="Product_API_for_MySQL_DB_Config" doc:name="Product API for MySQL DB Config" doc:id="59b19ba9-4c16-4bee-bf71-7be7d60860e0" property_host="${sysProductAPI.forMySQL.host}" property_port="${sysProductAPI.forMySQL.port}" property_basePath="/api" property_client-id="${app.client_id}" property_client-secret="${app.client_secret}" property_protocol="${sysProductAPI.forMySQL.protocol}"/>
 	<http:listener-config name="product-api-spec-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="${https.port}" protocol="HTTPS">
 			<tls:context >
@@ -22,5 +23,5 @@ http://www.mulesoft.org/schema/mule/product-apifor-my-sqldb http://www.mulesoft.
 		</http:listener-connection>
     </http:listener-config>
     <apikit:config name="product-api-spec-config" raml="product-api-spec.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-	<api-gateway:autodiscovery apiId="${api.autodiscovery}" doc:name="API Autodiscovery" doc:id="c15cc5df-84b6-4f77-868c-958732b27cdf" flowRef="product-api-spec-main" />
+	<api-gateway:autodiscovery apiId="${app.autodiscovery}" doc:name="API Autodiscovery" doc:id="c15cc5df-84b6-4f77-868c-958732b27cdf" flowRef="product-api-spec-main" />
 </mule>

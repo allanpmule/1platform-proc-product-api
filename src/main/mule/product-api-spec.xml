@@ -27,7 +27,7 @@ output application/json
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
-            <on-error-propagate type="APIKIT:NOT_FOUND">
+            <on-error-propagate type="APIKIT:NOT_FOUND, APP:NOT_FOUND" enableNotifications="true" logException="true">
                 <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
                     <ee:message>
                         <ee:set-payload><![CDATA[%dw 2.0
@@ -80,7 +80,7 @@ output application/json
                 </ee:transform>
             </on-error-propagate>
             <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
-                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="e61b2604-fee3-4b3b-a3d5-4e9fea4a6008">
                     <ee:message>
                         <ee:set-payload><![CDATA[%dw 2.0
 output application/json
@@ -88,10 +88,24 @@ output application/json
 {message: "Not Implemented"}]]></ee:set-payload>
                     </ee:message>
                     <ee:variables>
-                        <ee:set-variable variableName="httpStatus">501</ee:set-variable>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[501]]></ee:set-variable>
                     </ee:variables>
                 </ee:transform>
             </on-error-propagate>
+			<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f304da0c-22c2-46c5-9416-72c0c54076c6" type="ANY">
+				<logger level="INFO" doc:name="Logger" doc:id="0fb686e6-6aaf-4f7b-b79d-f343d9ae2ed3" message="#[error.cause.message]" category="@@@@@@@@@@@@@@@@@@@"/>
+				<ee:transform doc:name="Transform Message" doc:id="1a578bfa-be45-4e14-a719-9367d009831e" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{message: error.description}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+						<ee:set-variable variableName="httpStatus" ><![CDATA[error.errorMessage.attributes.statusCode]]></ee:set-variable>
+					</ee:variables>
+				</ee:transform>
+			</on-error-propagate>
         </error-handler>
     </flow>
     <flow name="product-api-spec-console">
@@ -122,10 +136,14 @@ output application/json
         </error-handler>
     </flow>
     <flow name="put:\products\(id):application\json:product-api-spec-config">
-		<product-apifor-my-sqldb:put-product-by-id doc:name="Put product by id" doc:id="87b6ac4f-2d90-4b96-9185-79b75f2b36af" config-ref="Product_API_for_MySQL_DB_Config" id="#[attributes.uriParams.id]"/>
+		<product-apifor-my-sqldb:put-product-by-id doc:name="Put product by id" doc:id="87b6ac4f-2d90-4b96-9185-79b75f2b36af" config-ref="Product_API_for_MySQL_DB_Config" id="#[attributes.uriParams.id]">
+			<error-mapping sourceType="PRODUCT-APIFOR-MY-SQLDB:NOT_FOUND" targetType="APP:NOT_FOUND" />
+		</product-apifor-my-sqldb:put-product-by-id>
     </flow>
     <flow name="delete:\products\(id):product-api-spec-config">
-		<product-apifor-my-sqldb:delete-product-by-id doc:name="Delete product by id" doc:id="8ea99557-f8e0-4a47-9bc9-4db272149e91" config-ref="Product_API_for_MySQL_DB_Config" id="#[attributes.uriParams.id]"/>
+		<product-apifor-my-sqldb:delete-product-by-id doc:name="Delete product by id" doc:id="8ea99557-f8e0-4a47-9bc9-4db272149e91" config-ref="Product_API_for_MySQL_DB_Config" id="#[attributes.uriParams.id]">
+			<error-mapping sourceType="PRODUCT-APIFOR-MY-SQLDB:NOT_FOUND" targetType="APP:NOT_FOUND" />
+		</product-apifor-my-sqldb:delete-product-by-id>
     </flow>
     <flow name="get:\products\(id):product-api-spec-config">
         <product-apifor-my-sqldb:get-product-by-id doc:name="Get product by id" doc:id="208031da-ec11-4782-b97a-4786ab872e9a" config-ref="Product_API_for_MySQL_DB_Config" id="#[attributes.uriParams.id]"/>
