@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd 
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+    <munit:config name="product-api-spec-apikit-test.xml" />
+    <http:request-config name="HTTP_Request_Configuration" basePath="/api">
+        <http:request-connection host="localhost" port="8082" protocol="HTTPS">
+			<tls:context >
+				<tls:trust-store insecure="true" />
+			</tls:context>
+		</http:request-connection>
+    </http:request-config>
+    <munit:test name="put:\products\(id):application\json:product-api-spec-config-204--FlowTest" description="Verifying functionality of [put:\products\(id):application\json:product-api-spec-config-204-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="product-api-spec-main" />
+            <munit:enable-flow-source value="put:\products\(id):application\json:product-api-spec-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/put_products_{id}_application_json.json')]" />
+            <set-variable variableName="id" value="#['1']" doc:name="id" />
+			<munit-tools:mock-when doc:name="Mock when" doc:id="3364ce54-0375-40c5-9bdb-702b023e6b7d" processor="product-apifor-my-sqldb:put-product-by-id">
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="httpStatus" value="#[204]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/products/$(vars.id)']">
+                <http:headers>#[{"Accept":"application/json","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(204)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 204" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="put:\products\(id):application\json:product-api-spec-config-404-application\json-FlowTest" description="Verifying functionality of [put:\products\(id):application\json:product-api-spec-config-404-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="product-api-spec-main" />
+            <munit:enable-flow-source value="put:\products\(id):application\json:product-api-spec-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/put_products_{id}_application_json.json')]" />
+            <set-variable variableName="id" value="#['1']" doc:name="id" />
+			<munit-tools:mock-when doc:name="Mock when" doc:id="10845d89-4c37-4ced-94cc-92d235ba0028" processor="product-apifor-my-sqldb:put-product-by-id">
+				<munit-tools:then-return >
+					<munit-tools:error typeId="PRODUCT-APIFOR-MY-SQLDB:NOT_FOUND"/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/products/$(vars.id)']">
+                <http:headers>#[{"Accept":"application/json","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[output application/java --- payload.message]" is='#[MunitTools::equalTo("Resource not found")]' message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="put:\products\(id):application\json:product-api-spec-config-409-application\json-FlowTest" description="Verifying functionality of [put:\products\(id):application\json:product-api-spec-config-409-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="product-api-spec-main" />
+            <munit:enable-flow-source value="put:\products\(id):application\json:product-api-spec-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/put_products_{id}_application_json.json')]" />
+            <set-variable variableName="id" value="#['1']" doc:name="id" />
+			<munit-tools:mock-when doc:name="Mock when" doc:id="9348285e-b7ae-4212-b08b-2c3643f4db15" processor="product-apifor-my-sqldb:put-product-by-id">
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="httpStatus" value="#[409]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="PUT" path="#['/products/$(vars.id)']">
+                <http:headers>#[{"Accept":"application/json","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="409" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(409)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 409" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="delete:\products\(id):product-api-spec-config-204--FlowTest" description="Verifying functionality of [delete:\products\(id):product-api-spec-config-204-]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="product-api-spec-main" />
+            <munit:enable-flow-source value="delete:\products\(id):product-api-spec-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="id" value="#['1']" doc:name="id" />
+			<munit-tools:mock-when doc:name="Mock when" doc:id="a0142c43-6802-4387-9347-d5cc4ffb1d68" processor="product-apifor-my-sqldb:delete-product-by-id">
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="httpStatus" value="#[204]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="DELETE" path="#['/products/$(vars.id)']">
+                <http:headers>#[{"Accept":"application/json","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(204)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 204" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="delete:\products\(id):product-api-spec-config-404-application\json-FlowTest" description="Verifying functionality of [delete:\products\(id):product-api-spec-config-404-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="product-api-spec-main" />
+            <munit:enable-flow-source value="delete:\products\(id):product-api-spec-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="id" value="#['1']" doc:name="id" />
+			<munit-tools:mock-when doc:name="Mock when" doc:id="84208126-cef3-478e-aba9-807681a461f0" processor="product-apifor-my-sqldb:delete-product-by-id">
+				<munit-tools:then-return >
+					<munit-tools:error typeId="PRODUCT-APIFOR-MY-SQLDB:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="DELETE" path="#['/products/$(vars.id)']">
+                <http:headers>#[{"Accept":"application/json","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="404" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(404)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 404" />
+            <munit-tools:assert-that expression="#[output application/java --- payload.message]" is='#[MunitTools::equalTo("Resource not found")]' message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\products\(id):product-api-spec-config-200-application\json-FlowTest" description="Verifying functionality of [get:\products\(id):product-api-spec-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="product-api-spec-main" />
+            <munit:enable-flow-source value="get:\products\(id):product-api-spec-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-variable variableName="id" value="#['1']" doc:name="id" />
+			<munit-tools:mock-when doc:name="Mock when" doc:id="ef124453-c54b-4f9f-8209-be3b8f061dfe" processor="product-apifor-my-sqldb:get-product-by-id">
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('scaffolder/response/get_200_products_{id}_application_json.json')]"/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="#['/products/$(vars.id)']">
+                <http:headers>#[{"Accept":"application/json","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[payload.productNumber]" is='#[MunitTools::equalTo("pn1")]' message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="get:\products:product-api-spec-config-200-application\json-FlowTest" description="Verifying functionality of [get:\products:product-api-spec-config-200-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="product-api-spec-main" />
+            <munit:enable-flow-source value="get:\products:product-api-spec-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="a3323664-30d5-49bc-9299-207a6185c6b3" processor="product-apifor-my-sqldb:get-products">
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[MunitTools::getResourceAsString('scaffolder/response/get_200_products_application_json.json')]"/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="GET" path="/products">
+                <http:headers>#[{"Accept":"application/json","Content-Type":"application/json"}]</http:headers>
+                <http:query-params>#[{}]</http:query-params>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(200)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 200" />
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(1)]" message="The response payload is not correct!" doc:name="Assert That - Payload is Expected" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\products:application\json:product-api-spec-config-201-application\json-FlowTest" description="Verifying functionality of [post:\products:application\json:product-api-spec-config-201-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="product-api-spec-main" />
+            <munit:enable-flow-source value="post:\products:application\json:product-api-spec-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_products_application_json.json')]" />
+			<munit-tools:mock-when doc:name="Mock when" doc:id="529542ea-685d-4348-94d1-c35db99163e2" processor="product-apifor-my-sqldb:post-products">
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="httpStatus" value="#[201]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/products">
+                <http:headers>#[{"Accept":"application/json","Content-Type":"application/json"}]</http:headers>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(201)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 201" />
+        </munit:validation>
+    </munit:test>
+    <munit:test name="post:\products:application\json:product-api-spec-config-409-application\json-FlowTest" description="Verifying functionality of [post:\products:application\json:product-api-spec-config-409-application\json]">
+        <munit:enable-flow-sources>
+            <munit:enable-flow-source value="product-api-spec-main" />
+            <munit:enable-flow-source value="post:\products:application\json:product-api-spec-config" />
+        </munit:enable-flow-sources>
+        <munit:behavior>
+            <set-payload value="#[MunitTools::getResourceAsString('scaffolder/request/post_products_application_json.json')]" />
+			<munit-tools:mock-when doc:name="Mock when" doc:id="704ded27-81c1-45f1-97ff-ad1789776488" processor="product-apifor-my-sqldb:post-products">
+				<munit-tools:then-return >
+					<munit-tools:variables >
+						<munit-tools:variable key="httpStatus" value="#[409]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+        </munit:behavior>
+        <munit:execution>
+            <http:request config-ref="HTTP_Request_Configuration" method="POST" path="/products">
+                <http:headers>#[{"Accept":"application/json","Content-Type":"application/json"}]</http:headers>
+                <http:response-validator>
+                    <http:success-status-code-validator values="409" />
+                </http:response-validator>
+            </http:request>
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:assert-that expression="#[attributes.statusCode]" is="#[MunitTools::equalTo(409)]" message="The HTTP Status code is not correct!" doc:name="Assert That Status Code is 409" />
+        </munit:validation>
+    </munit:test>
+</mule>

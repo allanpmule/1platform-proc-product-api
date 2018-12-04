@@ -14,12 +14,7 @@ sysProductAPI:
     basePath: 
     protocol: 
     
-api:
+app:
   autodiscovery: 
-  
-anypoint:
-  platform:
-    client_id: 
-    client_secret:  
-    visualizer:
-      layer: 
+  client_id:
+  client_secret: 
