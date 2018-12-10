@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.4-AM'
     BG = "1Platform\\Manufacturing"
     WORKER = "Small"
-    APP_CLIENT = credentials("$BRANCH_NAME-api-mgr-proc-product-api")
+    APP_CLIENT_CREDS = credentials("$BRANCH_NAME-api-mgr-proc-product-api")
   }
   stages {
     stage('Prepare') {
@@ -34,7 +34,7 @@ pipeline {
       steps {
         withMaven(
           mavenSettingsConfig: 'f007350a-b1d5-44a8-9757-07c22cd2a360'){
-              sh "mvn -B test -Denv.APP_CLIENT_ID=$APP_CLIENT_USR -Denv.APP_CLIENT_SECRET=$APP_CLIENT_PSW"
+              sh "mvn -B test -Denv.APP_CLIENT_ID=$APP_CLIENT_CREDS_USR -Denv.APP_CLIENT_SECRET=$APP_CLIENT_CREDS_PSW"
           }
        }
     }
