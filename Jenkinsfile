@@ -7,7 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.4-AM'
     BG = "1Platform\\Manufacturing"
     WORKER = "Small"
-    APP_CLIENT = credentials("$BRANCH-api-mgr-proc-product-api")
+    APP_CLIENT = credentials("$BRANCH_NAME-api-mgr-proc-product-api")
   }
   stages {
     stage('Prepare') {
