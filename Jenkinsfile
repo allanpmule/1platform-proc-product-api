@@ -7,6 +7,7 @@ pipeline {
     MULE_VERSION = '4.1.4-AM'
     BG = "1Platform\\Manufacturing"
     WORKER = "Small"
+    APP_CLIENT = credentials("$BRANCH-api-mgr-proc-product-api")
   }
   stages {
     stage('Prepare') {
@@ -33,11 +34,9 @@ pipeline {
       steps {
         withMaven(
           mavenSettingsConfig: 'f007350a-b1d5-44a8-9757-07c22cd2a360'){
-            withCredentials([usernamePassword(credentialsId: 'develop-api-mgr-proc-product-api', usernameVariable: 'APP_CLIENT_USR', passwordVariable: 'APP_CLIENT_PSW')]){
               sh "mvn -B test -Denv.APP_CLIENT_ID=$APP_CLIENT_USR -Denv.APP_CLIENT_SECRET=$APP_CLIENT_PSW"
-            }
           }
-      }
+       }
     }
 
     stage('Deploy Development') {
@@ -47,7 +46,6 @@ pipeline {
       environment {
         ENVIRONMENT = 'Development'
         ANYPOINT_ENV = credentials('DEV_ANYPOINT_MANUFACTURING')
-        APP_CLIENT_CREDS = credentials('develop-api-mgr-proc-product-api')
         APP_NAME = 'dev-nto-product-api-v1'
       }
       steps {
@@ -61,7 +59,6 @@ pipeline {
         environment {
           ENVIRONMENT = 'Production'
           ANYPOINT_ENV = credentials('PRD_ANYPOINT_MANUFACTURING')
-          APP_CLIENT_CREDS = credentials('master-api-mgr-proc-product-api')
           APP_NAME = 'nto-product-api-v1'
         }
         steps {
